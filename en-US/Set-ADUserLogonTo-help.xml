@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<helpItems schema="maml">
+
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+<command:details><command:name>Get-ADUserLogonTo</command:name>
+<command:verb>Get</command:verb>
+<command:noun>ADUserLogonTo</command:noun>
+<maml:description><maml:para>Outputs the computers a user is restricted to logging into via the userWorkstations attribute in AD
+</maml:para>
+</maml:description>
+</command:details>
+<maml:description><maml:para>Queries a user's userWorkstations attribute in AD, and can return either the computers that user is restricted to logging into via that attribute, or just how many computers are contained with that attribute.
+</maml:para>
+</maml:description>
+<command:syntax><command:syntaxItem><maml:name>Get-ADUserLogonTo</maml:name>
+<command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none"><maml:name>Identity</maml:name>
+<maml:Description><maml:para>the username of the user to query
+</maml:para>
+</maml:Description>
+<command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+<dev:type><maml:name>Object</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue></dev:defaultValue>
+</command:parameter>
+<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none"><maml:name>ReturnCount</maml:name>
+<maml:Description><maml:para>If specified, instead of returning the computers the user is restricted to logging into, returns how many computers the user is restricted to logging into.
+</maml:para>
+</maml:Description>
+<dev:type><maml:name>SwitchParameter</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue>False</dev:defaultValue>
+</command:parameter>
+</command:syntaxItem>
+</command:syntax>
+<command:parameters><command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none"><maml:name>Identity</maml:name>
+<maml:Description><maml:para>the username of the user to query
+</maml:para>
+</maml:Description>
+<command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+<dev:type><maml:name>Object</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue></dev:defaultValue>
+</command:parameter>
+<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none"><maml:name>ReturnCount</maml:name>
+<maml:Description><maml:para>If specified, instead of returning the computers the user is restricted to logging into, returns how many computers the user is restricted to logging into.
+</maml:para>
+</maml:Description>
+<command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+<dev:type><maml:name>SwitchParameter</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue>False</dev:defaultValue>
+</command:parameter>
+</command:parameters>
+<command:inputTypes><command:inputType><dev:type><maml:name>System.Object</maml:name>
+</dev:type>
+<maml:description><maml:para>
+</maml:para>
+</maml:description>
+</command:inputType>
+</command:inputTypes>
+<command:returnValues><command:returnValue><dev:type><maml:name>System.Object</maml:name>
+</dev:type>
+<maml:description><maml:para>
+</maml:para>
+</maml:description>
+</command:returnValue>
+</command:returnValues>
+<maml:alertSet><maml:alert><maml:para>
+</maml:para>
+</maml:alert>
+</maml:alertSet>
+<command:examples><command:example><maml:title>Example 1</maml:title>
+<dev:code>PS C:\&gt; Get-ADUserLogonTo -Identity testuser</dev:code>
+<dev:remarks><maml:para>Returns the computers, if any, that testuser is restricted to logging into via the userWorkstations attribute.
+</maml:para>
+</dev:remarks>
+</command:example>
+<command:example><maml:title>Example 2</maml:title>
+<dev:code>PS C:\&gt; Get-ADUserLogonTo -Identity testuser -ReturnCount</dev:code>
+<dev:remarks><maml:para>Returns how many computers, if there are any, that testuser is restricted to logging into via the userWorkstations attribute.
+</maml:para>
+</dev:remarks>
+</command:example>
+</command:examples>
+<command:relatedLinks><maml:navigationLink><maml:linkText>Online Version:</maml:linkText>
+<maml:uri>https://github.com/JohnForet/Set-ADUserLogonTo/blob/master/docs/Get-ADUserLogonTo.md</maml:uri>
+</maml:navigationLink>
+</command:relatedLinks>
+</command:command>
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+<command:details><command:name>Set-ADUserLogonTo</command:name>
+<command:verb>Set</command:verb>
+<command:noun>ADUserLogonTo</command:noun>
+<maml:description><maml:para>Set the userWorkstations attribute on an AD user.
+</maml:para>
+</maml:description>
+</command:details>
+<maml:description><maml:para>Set the userWorkstations attribute on an AD user to restrict which computers they can logon to, or can blank the attribute allowing the user to logon to any computer. As part of the wildcard support in the ComputerList parameter, each computername is retrieved using an AD query, so the computer must exist in AD before it can be added to as a restriction on a user. At the moment, this function is destructive, meaning it doesnt keep any data that the userWorkstations may have held before running this command.
+</maml:para>
+</maml:description>
+<command:syntax><command:syntaxItem><maml:name>Set-ADUserLogonTo</maml:name>
+<command:parameter required="true" variableLength="true" globbing="true" pipelineInput="False" position="named" aliases="none"><maml:name>ComputerList</maml:name>
+<maml:Description><maml:para>This parameter specifies which computers you'd like to restrict the user to logging into. This can be in the form of a wildcard query `"ROOMNAME "`, a comma-delimted list of computers `"JSMITH-LT,WGATES-LT"`, or any combination of those two `"ROOMNAME ,JSMITH-LT, DESKTOP "`. A limitation included with the introduction of wildcard support here is that the computer must already exist in AD in order to add it via this function.
+</maml:para>
+</maml:Description>
+<command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+<dev:type><maml:name>Object</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue></dev:defaultValue>
+</command:parameter>
+<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf"><maml:name>Confirm</maml:name>
+<maml:Description><maml:para>If specified as $false, the command will make changes without prompting you first. Unless you need to make changes with Set-ADUserLogonTo in an automated fashion, I'd leave this parameter alone, as the prompt shows you which computers the command will set before applying it to the user.
+</maml:para>
+</maml:Description>
+<dev:type><maml:name>SwitchParameter</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue>False</dev:defaultValue>
+</command:parameter>
+<command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none"><maml:name>Identity</maml:name>
+<maml:Description><maml:para>the username of the user that you'd like to modify the logon restrictions on.
+</maml:para>
+</maml:Description>
+<command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+<dev:type><maml:name>Object</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue></dev:defaultValue>
+</command:parameter>
+<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none"><maml:name>MaximumComputers</maml:name>
+<maml:Description><maml:para>This property is limited to 64 values in most AD environments, but it is possible to expand it to have more, with the caveat of it not being recommended by Microsoft. It's here as a parameter in the case that you've modified Active Directory to be able to handle more values in the userWorkstations attribute. https://support.microsoft.com/en-us/kb/938458
+</maml:para>
+</maml:Description>
+<command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+<dev:type><maml:name>Object</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue>64</dev:defaultValue>
+</command:parameter>
+<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi"><maml:name>WhatIf</maml:name>
+<maml:Description><maml:para>If specified, will output what the command will do without making any changes.
+</maml:para>
+</maml:Description>
+<dev:type><maml:name>SwitchParameter</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue>False</dev:defaultValue>
+</command:parameter>
+</command:syntaxItem>
+<command:syntaxItem><maml:name>Set-ADUserLogonTo</maml:name>
+<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf"><maml:name>Confirm</maml:name>
+<maml:Description><maml:para>If specified as $false, the command will make changes without prompting you first. Unless you need to make changes with Set-ADUserLogonTo in an automated fashion, I'd leave this parameter alone, as the prompt shows you which computers the command will set before applying it to the user.
+</maml:para>
+</maml:Description>
+<dev:type><maml:name>SwitchParameter</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue>False</dev:defaultValue>
+</command:parameter>
+<command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none"><maml:name>Identity</maml:name>
+<maml:Description><maml:para>the username of the user that you'd like to modify the logon restrictions on.
+</maml:para>
+</maml:Description>
+<command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+<dev:type><maml:name>Object</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue></dev:defaultValue>
+</command:parameter>
+<command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none"><maml:name>SetToNull</maml:name>
+<maml:Description><maml:para>If specified, will blank out the userWorkstations attribute on the user, allowing them to logon to any computer they like.
+</maml:para>
+</maml:Description>
+<dev:type><maml:name>SwitchParameter</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue>False</dev:defaultValue>
+</command:parameter>
+<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi"><maml:name>WhatIf</maml:name>
+<maml:Description><maml:para>If specified, will output what the command will do without making any changes.
+</maml:para>
+</maml:Description>
+<dev:type><maml:name>SwitchParameter</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue>False</dev:defaultValue>
+</command:parameter>
+</command:syntaxItem>
+</command:syntax>
+<command:parameters><command:parameter required="true" variableLength="true" globbing="true" pipelineInput="False" position="named" aliases="none"><maml:name>ComputerList</maml:name>
+<maml:Description><maml:para>This parameter specifies which computers you'd like to restrict the user to logging into. This can be in the form of a wildcard query `"ROOMNAME "`, a comma-delimted list of computers `"JSMITH-LT,WGATES-LT"`, or any combination of those two `"ROOMNAME ,JSMITH-LT, DESKTOP "`. A limitation included with the introduction of wildcard support here is that the computer must already exist in AD in order to add it via this function.
+</maml:para>
+</maml:Description>
+<command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+<dev:type><maml:name>Object</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue></dev:defaultValue>
+</command:parameter>
+<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf"><maml:name>Confirm</maml:name>
+<maml:Description><maml:para>If specified as $false, the command will make changes without prompting you first. Unless you need to make changes with Set-ADUserLogonTo in an automated fashion, I'd leave this parameter alone, as the prompt shows you which computers the command will set before applying it to the user.
+</maml:para>
+</maml:Description>
+<command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+<dev:type><maml:name>SwitchParameter</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue>False</dev:defaultValue>
+</command:parameter>
+<command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none"><maml:name>Identity</maml:name>
+<maml:Description><maml:para>the username of the user that you'd like to modify the logon restrictions on.
+</maml:para>
+</maml:Description>
+<command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+<dev:type><maml:name>Object</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue></dev:defaultValue>
+</command:parameter>
+<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none"><maml:name>MaximumComputers</maml:name>
+<maml:Description><maml:para>This property is limited to 64 values in most AD environments, but it is possible to expand it to have more, with the caveat of it not being recommended by Microsoft. It's here as a parameter in the case that you've modified Active Directory to be able to handle more values in the userWorkstations attribute. https://support.microsoft.com/en-us/kb/938458
+</maml:para>
+</maml:Description>
+<command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+<dev:type><maml:name>Object</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue>64</dev:defaultValue>
+</command:parameter>
+<command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none"><maml:name>SetToNull</maml:name>
+<maml:Description><maml:para>If specified, will blank out the userWorkstations attribute on the user, allowing them to logon to any computer they like.
+</maml:para>
+</maml:Description>
+<command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+<dev:type><maml:name>SwitchParameter</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue>False</dev:defaultValue>
+</command:parameter>
+<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi"><maml:name>WhatIf</maml:name>
+<maml:Description><maml:para>If specified, will output what the command will do without making any changes.
+</maml:para>
+</maml:Description>
+<command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+<dev:type><maml:name>SwitchParameter</maml:name>
+<maml:uri /></dev:type>
+<dev:defaultValue>False</dev:defaultValue>
+</command:parameter>
+</command:parameters>
+<command:inputTypes><command:inputType><dev:type><maml:name>System.Object</maml:name>
+</dev:type>
+<maml:description><maml:para>
+</maml:para>
+</maml:description>
+</command:inputType>
+</command:inputTypes>
+<command:returnValues><command:returnValue><dev:type><maml:name>System.Object</maml:name>
+</dev:type>
+<maml:description><maml:para>
+</maml:para>
+</maml:description>
+</command:returnValue>
+</command:returnValues>
+<maml:alertSet><maml:alert><maml:para>
+</maml:para>
+</maml:alert>
+</maml:alertSet>
+<command:examples><command:example><maml:title>Example 1</maml:title>
+<dev:code>PS C:\&gt; Set-ADUserLogonTo -Identity fakeuser -ComputerList JSMITH-LT,WGATES-LT,CKNOX-DESKTOP</dev:code>
+<dev:remarks><maml:para>Sets userWorkstations attribute on "fakeuser" to the three computers `JSMITH-LT,WGATES-LT,CKNOX-DESKTOP`.
+</maml:para>
+</dev:remarks>
+</command:example>
+<command:example><maml:title>Example 2</maml:title>
+<dev:code>PS C:\&gt; Set-ADUserLogonTo -Identity fakeuser -ComputerList *LT</dev:code>
+<dev:remarks><maml:para>Sets userWorkstations attribute on "fakeuser" to any computer that ends in `LT`.
+</maml:para>
+</dev:remarks>
+</command:example>
+<command:example><maml:title>Example 3</maml:title>
+<dev:code>PS C:\&gt; Set-ADUserLogonTo -Identity fakeuser -ComputerList DC109*,AC102-DESKTOP</dev:code>
+<dev:remarks><maml:para>Sets userWorkstations attribute on "fakeuser" to any computer in that begins with `DC109`, and a computer named `AC102-DESKTOP`.
+</maml:para>
+</dev:remarks>
+</command:example>
+<command:example><maml:title>Example 4</maml:title>
+<dev:code>PS C:\&gt; Set-ADUserLogonTo -Identity fakeuser -SetToNull</dev:code>
+<dev:remarks><maml:para>Blanks out the userWorkstations attribute on "fakeuser", allowing it to login to any computer.
+</maml:para>
+</dev:remarks>
+</command:example>
+</command:examples>
+<command:relatedLinks><maml:navigationLink><maml:linkText>Online Version:</maml:linkText>
+<maml:uri>https://github.com/JohnForet/Set-ADUserLogonTo/blob/master/docs/Set-ADUserLogonTo.md</maml:uri>
+</maml:navigationLink>
+</command:relatedLinks>
+</command:command>
+</helpItems>

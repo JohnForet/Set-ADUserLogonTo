@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Configuration>
+    <ViewDefinitions>
+        <View>
+            <Name>Microsoft.ActiveDirectory.Management.ADUser.userWorkstations</Name>
+            <ViewSelectedBy>
+              <TypeName>Microsoft.ActiveDirectory.Management.ADUser.userWorkstations</TypeName>
+            </ViewSelectedBy>
+            <WideControl>
+              <AutoSize/>
+              <WideEntries>
+                <WideEntry>
+                  <WideItem>
+                    <PropertyName>ComputerName</PropertyName>
+                  </WideItem>
+                </WideEntry>
+              </WideEntries>
+            </WideControl>
+        </View>
+    </ViewDefinitions>
+</Configuration>
