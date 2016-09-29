@@ -1,4 +1,16 @@
-﻿function Get-ADUserLogonTo{
+﻿Function Test-ADModule {
+    [CmdletBinding()]
+    Param()
+    BEGIN {
+        if (Get-Module -ListAvailable -Name ActiveDirectory) {
+                return $true
+        } else {
+            Write-Error "ActiveDirectory Module is not available. Module may need to be installed from RSAT."
+        }
+    }
+}
+
+function Get-ADUserLogonTo{
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true,
@@ -8,6 +20,7 @@
 
     )
     BEGIN{
+        Test-ADModule -ErrorAction Stop
         $user = Get-ADUser -Identity $Identity -Properties userWorkstations
     }
     PROCESS{
@@ -48,6 +61,9 @@ function Set-ADUserLogonTo{
                    ParameterSetName='SetToNull')]
         [switch]$SetToNull
     )
+    BEGIN {
+        Test-ADModule -ErrorAction Stop
+    }
     PROCESS {
         if ($SetToNull) {
             if ($PSCmdlet.ShouldProcess($Identity,"Disabling logon restrictions")) {
