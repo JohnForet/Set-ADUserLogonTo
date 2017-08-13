@@ -20,7 +20,7 @@ function Get-ADUserLogonTo{
 
     )
     BEGIN{
-        Test-ADModule -ErrorAction Stop
+        Test-ADModule -ErrorAction Stop | Out-Null
         $user = Get-ADUser -Identity $Identity -Properties userWorkstations
     }
     PROCESS{
@@ -62,7 +62,7 @@ function Set-ADUserLogonTo{
         [switch]$SetToNull
     )
     BEGIN {
-        Test-ADModule -ErrorAction Stop
+        Test-ADModule -ErrorAction Stop | Out-Null
     }
     PROCESS {
         if ($SetToNull) {
