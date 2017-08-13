@@ -74,7 +74,7 @@ function Set-ADUserLogonTo{
             $ComputerListArray = $ComputerList.split(",")
             $ConcatenatedQuery = $null
             foreach ($Name in $ComputerListArray) {
-                $Query = (Get-ADComputer -Filter 'Name -like $Name').Name -join ','
+                $Query = (Get-ADComputer -Identity $Name).Name -join ','
                 $ConcatenatedQuery += $Query.Insert(0,',')
             }
             $ConcatenatedQuery = $ConcatenatedQuery.TrimStart(",") #removes the unneccessary leading comma
