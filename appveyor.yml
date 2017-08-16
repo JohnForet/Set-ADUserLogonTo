@@ -5,6 +5,9 @@
 # Allow WMF5 (i.e. PowerShellGallery functionality)
 os: WMF 5
 
+install:
+  - cinst pester -y
+
 build: false
 
 test_script:
