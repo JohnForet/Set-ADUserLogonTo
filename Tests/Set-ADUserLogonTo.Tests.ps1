@@ -10,11 +10,11 @@ InModuleScope $ModuleName {
         It "returns true when ad module is present"{
             Mock Get-Module {return $true}
             Test-ADModule | Should Be $true
-            {Test-ADModule -ErrorAction:Stop} | Should Not Throw
+            {Test-ADModule -ErrorAction Stop} | Should Not Throw
         }
         It "throws an error when ad module is not present"{
             Mock Get-Module{return $false}
-            {Test-ADModule -ErrorAction:Stop} | Should Throw
+            {Test-ADModule -ErrorAction Stop} | Should Throw
         }
     }
     Describe Get-ADUserLogonTo {
@@ -77,33 +77,31 @@ InModuleScope $ModuleName {
             $complist = ""
             1..64 | ForEach-Object{$complist += "COMPUTER$_,"}
             $complist = $complist.TrimEnd(",")
-            $maxcomps = Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:SilentlyContinue
-            $maxcomps.LogonWorkstations | Should BeLike "*COMPUTER1,*"
-            $maxcomps.LogonWorkstations | Should BeLike "*COMPUTER64*"
-            {$maxcomps} | Should Not Throw
+            { Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction Stop } | Should not throw
+            #$maxcomps.LogonWorkstations | Should BeLike "*COMPUTER1,*"
+            #$maxcomps.LogonWorkstations | Should BeLike "*COMPUTER64*"
         }
         It "throws when given computers beyond the default 64" {
             $complist = ""
             1..65 | ForEach-Object{$complist += "COMPUTER$_,"}
             $complist = $complist.TrimEnd(",")
-            $overmaxcomps = Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:SilentlyContinue
-            $overmaxcomps | Should Throw
+            
+            { Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction Stop } | Should Throw
         }
         It "is be able to set the computers to the user supplied max" {
             $complist = ""
             1..200 | ForEach-Object{$complist += "COMPUTER$_,"}
             $complist = $complist.TrimEnd(",")
-            $maxcomps = Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:SilentlyContinue
-            $maxcomps.LogonWorkstations | Should BeLike "*COMPUTER1,*"
-            $maxcomps.LogonWorkstations | Should BeLike "*COMPUTER200*"
-            {$maxcomps} | Should Not Throw
+            {  Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction Stop } | Should not throw
+            # $maxcomps.LogonWorkstations | Should BeLike "*COMPUTER1,*"
+            # $maxcomps.LogonWorkstations | Should BeLike "*COMPUTER200*"
+            
         }
         It "throws when given computers beyond the user supplied max" {
             $complist = ""
             1..201 | ForEach-Object{$complist += "COMPUTER$_,"}
             $complist = $complist.TrimEnd(",")
-            $overmaxcomps = Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:SilentlyContinue
-            $overmaxcomps | Should Throw
+            { Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction Stop } | Should Throw
         }
     }
 }
