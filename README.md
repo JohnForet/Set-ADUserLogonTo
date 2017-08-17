@@ -1,6 +1,8 @@
 # Set-ADUserLogonTo
 A PowerShell module designed to provide enhanced functionality around the querying and manipulation of userWorkstations attribute on AD users.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/github/JohnForet/set-aduserlogonto?branch=master&svg=true)](https://ci.appveyor.com/project/JohnForet/set-aduserlogonto/branch/master)
+
 ### Motivation
 This module was created to provide some advanced functionality around the setting of the userWorkstations attribute on ADUsers. The functions included are:
 
