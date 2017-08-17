@@ -75,29 +75,29 @@ InModuleScope $ModuleName {
             $complist = ""
             1..64 | ForEach-Object{$complist += "COMPUTER$_,"}
             $complist = $complist.TrimEnd(",")
-            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:SilentlyContinue).LogonWorkstations | Should BeLike "*COMPUTER1,*"
-            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:SilentlyContinue).LogonWorkstations | Should BeLike "*COMPUTER64*"
-            {Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:SilentlyContinue} | Should Not Throw
+            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist).LogonWorkstations | Should BeLike "*COMPUTER1,*"
+            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist).LogonWorkstations | Should BeLike "*COMPUTER64*"
+            {Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:Stop} | Should Not Throw
         }
         It "throws when given computers beyond the default 64" {
             $complist = ""
             1..65 | ForEach-Object{$complist += "COMPUTER$_,"}
             $complist = $complist.TrimEnd(",")
-            Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:SilentlyContinue | Should Throw
+            {Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:Stop} | Should Throw
         }
         It "is be able to set the computers to the user supplied max" {
             $complist = ""
             1..200 | ForEach-Object{$complist += "COMPUTER$_,"}
             $complist = $complist.TrimEnd(",")           
-            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:SilentlyContinue).LogonWorkstations | Should BeLike "*COMPUTER1,*"
-            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:SilentlyContinue).LogonWorkstations | Should BeLike "*COMPUTER200*"
-            {Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:SilentlyContinue} | Should Not Throw
+            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200).LogonWorkstations | Should BeLike "*COMPUTER1,*"
+            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200).LogonWorkstations | Should BeLike "*COMPUTER200*"
+            {Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:Stop} | Should Not Throw
         }
         It "throws when given computers beyond the user supplied max" {
             $complist = ""
             1..201 | ForEach-Object{$complist += "COMPUTER$_,"}
             $complist = $complist.TrimEnd(",")
-            Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:SilentlyContinue | Should Throw
+            {Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:Stop} | Should Throw
         }
     }
 }
