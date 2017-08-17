@@ -29,10 +29,9 @@ InModuleScope $ModuleName {
             Get-ADUserLogonTo -Identity PlaceHolder -ReturnCount | Should Be '2'
         }
         It "has the correct workstations outputted" {
-            $user = Get-ADUserLogonTo -Identity PlaceHolder
-            $user.ComputerName -contains "COMPUTER1" | Should Be $true
-            $user.ComputerName -contains "COMPUTER2" | Should Be $true
-            $user.ComputerName -contains "FAKECOMPUTER" | Should Be $false
+            (Get-ADUserLogonTo -Identity PlaceHolder).ComputerName -contains "COMPUTER1" | Should Be $true
+            (Get-ADUserLogonTo -Identity PlaceHolder).ComputerName -contains "COMPUTER2" | Should Be $true
+            (Get-ADUserLogonTo -Identity PlaceHolder).ComputerName -contains "FAKECOMPUTER" | Should Be $false
         }
     }
     Describe Set-ADUserLogonTo {
@@ -67,43 +66,38 @@ InModuleScope $ModuleName {
             (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -SetToNull).LogonWorkstations | Should BeNullOrEmpty
         }
         It "sets logon workstions to two computers" {
-            $setlogonworkstations = Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList "COMPUTER1","COMPUTER2"
-            $setlogonworkstations.LogonWorkstations | Should Not BeNullOrEmpty
-            $setlogonworkstations.LogonWorkstations | Should BeLike "*COMPUTER1*"
-            $setlogonworkstations.LogonWorkstations | Should BeLike "*COMPUTER2*"
-            $setlogonworkstations.LogonWorkstations | Should Not BeLike "*FAKECOMPUTER*"
+            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList "COMPUTER1","COMPUTER2").LogonWorkstations | Should Not BeNullOrEmpty
+            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList "COMPUTER1","COMPUTER2").LogonWorkstations | Should BeLike "*COMPUTER1*"
+            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList "COMPUTER1","COMPUTER2").LogonWorkstations | Should BeLike "*COMPUTER2*"
+            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList "COMPUTER1","COMPUTER2").LogonWorkstations | Should Not BeLike "*FAKECOMPUTER*"
         }
         It "works when given the default max of 64 computers" {
             $complist = ""
             1..64 | ForEach-Object{$complist += "COMPUTER$_,"}
             $complist = $complist.TrimEnd(",")
-            $maxcomps = Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:SilentlyContinue
-            $maxcomps.LogonWorkstations | Should BeLike "*COMPUTER1,*"
-            $maxcomps.LogonWorkstations | Should BeLike "*COMPUTER64*"
-            {$maxcomps} | Should Not Throw
+            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:SilentlyContinue).LogonWorkstations | Should BeLike "*COMPUTER1,*"
+            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:SilentlyContinue).LogonWorkstations | Should BeLike "*COMPUTER64*"
+            {Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:SilentlyContinue} | Should Not Throw
         }
         It "throws when given computers beyond the default 64" {
             $complist = ""
             1..65 | ForEach-Object{$complist += "COMPUTER$_,"}
             $complist = $complist.TrimEnd(",")
-            $overmaxcomps = Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:SilentlyContinue
-            $overmaxcomps | Should Throw
+            Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -ErrorAction:SilentlyContinue | Should Throw
         }
         It "is be able to set the computers to the user supplied max" {
             $complist = ""
             1..200 | ForEach-Object{$complist += "COMPUTER$_,"}
-            $complist = $complist.TrimEnd(",")
-            $maxcomps = Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:SilentlyContinue
-            $maxcomps.LogonWorkstations | Should BeLike "*COMPUTER1,*"
-            $maxcomps.LogonWorkstations | Should BeLike "*COMPUTER200*"
-            {$maxcomps} | Should Not Throw
+            $complist = $complist.TrimEnd(",")           
+            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:SilentlyContinue).LogonWorkstations | Should BeLike "*COMPUTER1,*"
+            (Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:SilentlyContinue).LogonWorkstations | Should BeLike "*COMPUTER200*"
+            {Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:SilentlyContinue} | Should Not Throw
         }
         It "throws when given computers beyond the user supplied max" {
             $complist = ""
             1..201 | ForEach-Object{$complist += "COMPUTER$_,"}
             $complist = $complist.TrimEnd(",")
-            $overmaxcomps = Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:SilentlyContinue
-            $overmaxcomps | Should Throw
+            Set-ADUserLogonTo -Identity PlaceHolder -Confirm:$false -ComputerList $complist -MaximumComputers 200 -ErrorAction:SilentlyContinue | Should Throw
         }
     }
 }
